@@ -18,13 +18,13 @@ more_movies = [
   {:title => 'Nomadland', :rating => 'R',
     :release_date => '19-Feb-2021'},
   {:title => 'CODA', :rating => 'PG-13',
-    :release_date => '13-Aug-2021'}
-#   { :title => 'Schindlers List', :rating => 'R', 
-#     :release_date => '1980-Mar-2024' },
-#   { :title => 'Satoru Gojo', :rating => 'PG-13', 
-#     :release_date => '2019-Sep-2019' },
-#   { :title => 'One Piece', :rating => 'R',
-#     :release_date => '2014-Apr-2028' }
+    :release_date => '13-Aug-2021'},
+  { :title => 'Schindlers List', :rating => 'R', 
+    :release_date => '12-Mar-2024' },
+  { :title => 'Satoru Gojo', :rating => 'PG-13', 
+    :release_date => '16-Sep-2019' },
+  { :title => 'One Piece', :rating => 'R',
+    :release_date => '19-Apr-2028' }
 ]
 
 # Working code
@@ -34,6 +34,9 @@ more_movies = [
 
 # Testing Improvement
 more_movies.each do |movie_attrs|
-    movie = Movie.find_or_initialize_by(title: movie_attrs[:title])
-    movie.update(movie_attrs) unless movie.persisted?
+    Movie.find_or_initialize_by(title: movie_attrs[:title]) do |movie_obj|
+        movie_obj.rating = movie.rating
+        movie_obj.release_date = movie.release_date
+        movie.update(movie_attrs) unless movie.persisted?
+    end
 end

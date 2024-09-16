@@ -26,7 +26,7 @@
       <tr>
         <td><%= movie.title %></td>
         <td><%= movie.rating %></td>
-        <td><%= movie.release_date.strftime('%B %d, %Y') %></td>
+        <td><%= movie.release_date.present? ? movie.release_date.strftime('%B %d, %Y') : 'N/A' %></td>
       </tr>
     <% end %>
   </tbody>
