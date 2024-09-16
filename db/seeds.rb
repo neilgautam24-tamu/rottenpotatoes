@@ -27,13 +27,13 @@ more_movies = [
 #     :release_date => '2014-Apr-2028' }
 ]
 
-more_movies.each do |movie|
-  Movie.create!(movie)
-end
-
-# more_movies.each do |movie_data|
-#   existing_movie = Movie.find_by(title: movie_data[:title])
-#   if existing_movie.nil?
-#     Movie.create(movie_data)
-#   end
+# Working code
+# more_movies.each do |movie|
+#   Movie.create!(movie)
 # end
+
+# Testing Improvement
+more_movies.each do |movie_attrs|
+    movie = Movie.find_or_initialize_by(title: movie_attrs[:title])
+    movie.update(movie_attrs) unless movie.persisted?
+end
