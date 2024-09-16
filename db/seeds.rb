@@ -35,8 +35,7 @@ more_movies = [
 # Testing Improvement
 more_movies.each do |movie_attrs|
     Movie.find_or_initialize_by(title: movie_attrs[:title]) do |movie_obj|
-        movie_obj.rating = movie_attrs.rating
-        movie_obj.release_date = movie_attrs.release_date
-        movie_obj.update(movie_attrs) unless movie_attrs.persisted?
+        movie_obj.rating = movie_attrs[:rating]
+        movie_obj.release_date = movie_attrs[:release_date]
     end
 end
