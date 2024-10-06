@@ -37,11 +37,10 @@ class MoviesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /movies/1 or /movies/1.json
   def update
     respond_to do |format|
       if @movie.update(movie_params)
-        format.html { redirect_to movie_url(@movie), notice: "Movie was successfully updated." }
+        format.html { redirect_to movie_url(@movie, sort: session[:sort], direction: session[:direction]), notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,23 +48,21 @@ class MoviesController < ApplicationController
       end
     end
   end
-
-  # DELETE /movies/1 or /movies/1.json
+  
   def destroy
-    @movie.destroy!
+    @movie.destroy
     respond_to do |format|
-      format.html { redirect_to movies_url, notice: "Movie was successfully destroyed." }
+      format.html { redirect_to movies_path(sort: session[:sort], direction: session[:direction]), notice: "Movie was successfully destroyed." }
       format.json { head :no_content }
     end
   end
-
+  
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_movie
       @movie = Movie.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def movie_params
       params.require(:movie).permit(:title, :rating, :description, :release_date)
     end

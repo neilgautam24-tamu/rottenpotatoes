@@ -52,7 +52,6 @@
 <table>
   <thead>
     <tr>
-      <!-- Highlight title column by default if no sort is present (default sorting by title) -->
       <th class="<%= 'sorted-title-' + (params[:direction] || 'asc') if (params[:sort] == 'title' || params[:sort].nil?) %>">
         <%= sortable "title", "Title" %>
       </th>
@@ -65,13 +64,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @movies.each do |movie| %>
-      <tr>
-        <td class="title"><%= movie.title %></td>
-        <td class="rating"><%= movie.rating %></td>
-        <td class="release_date"><%= movie.release_date.strftime('%B %d, %Y') %></td>
-      </tr>
-    <% end %>
+  <% @movies.each do |movie| %>
+    <tr>
+      <td class="title"><%= link_to movie.title, movie_path(movie, sort: session[:sort], direction: session[:direction]) %></td>
+      <td class="rating"><%= movie.rating %></td>
+      <td class="release_date"><%= movie.release_date.strftime('%B %d, %Y') %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 

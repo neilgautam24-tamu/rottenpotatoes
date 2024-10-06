@@ -4,6 +4,7 @@
 
 <div>
   <%= link_to "Edit this movie", edit_movie_path(@movie) %> |
+  <!-- Maintain sorting and direction when navigating back to movies -->
   <%= link_to "Back to movies", movies_path(sort: session[:sort], direction: session[:direction]) %>
 
   <%= button_to "Destroy this movie", @movie, method: :delete %>
