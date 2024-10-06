@@ -1,30 +1,33 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: %i[ show edit update destroy ]
-
-  # GET /movies or /movies.json
+  helper_method :sort_column, :sort_direction
+  
   def index
-    @movies = Movie.all
+    @movies = Movie.order("#{sort_column} #{sort_direction}")
+    # Store sorting and direction in the session
+    session[:sort] = params[:sort] || "title" 
+    session[:direction] = params[:direction] || "asc"  
+    session[:previous_url] = request.fullpath
   end
 
-  # GET /movies/1 or /movies/1.json
-  def show
-  end
-
-  # GET /movies/new
   def new
     @movie = Movie.new
   end
 
-  # GET /movies/1/edit
-  def edit
+  def sort_column
+    Movie.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end
 
-  # POST /movies or /movies.json
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
   def create
     @movie = Movie.new(movie_params)
 
     respond_to do |format|
       if @movie.save
+        # Redirect to the newly created movie page with a 'Back to Movies' button
         format.html { redirect_to movie_url(@movie), notice: "Movie was successfully created." }
         format.json { render :show, status: :created, location: @movie }
       else
@@ -50,7 +53,6 @@ class MoviesController < ApplicationController
   # DELETE /movies/1 or /movies/1.json
   def destroy
     @movie.destroy!
-
     respond_to do |format|
       format.html { redirect_to movies_url, notice: "Movie was successfully destroyed." }
       format.json { head :no_content }

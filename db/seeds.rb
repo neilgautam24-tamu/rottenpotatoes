@@ -27,12 +27,7 @@ more_movies = [
     :release_date => '19-Apr-2028' }
 ]
 
-# Working code
-# more_movies.each do |movie|
-#   Movie.create!(movie)
-# end
-
-# Testing Improvement
+# Updated Code with duplication prevention functionality
 more_movies.each do |movie_attrs|
     Movie.find_or_create_by(title: movie_attrs[:title]) do |movie_obj|
         movie_obj.rating = movie_attrs[:rating]
